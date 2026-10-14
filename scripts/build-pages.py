@@ -7,7 +7,7 @@ header=header.replace('href="#home"','href="index.html"').replace('href="#about"
 footer=footer.replace('href="#home"','href="index.html"')
 footer=footer.replace('<p>CONTENT. PEOPLE. CULTURE.</p>','<div class="footer-links"><a href="about.html">About</a><a href="business.html">Business</a><a href="work.html">Experience</a><a href="contact.html">Contact</a></div>')
 head=base[:base.index('<body>')].replace('<script src="app.js" defer></script>','<script src="app.js" defer></script><script src="motion.js" defer></script><script src="experience.js" defer></script>')
-chrome='<div class="scroll-progress" aria-hidden="true"></div><div class="cursor-halo" aria-hidden="true"></div><div class="page-wipe" aria-hidden="true"></div>'
+chrome='<div class="scroll-progress" aria-hidden="true"></div><div class="cursor-halo" aria-hidden="true"></div>'
 def section(id):return re.search(r'<section\b[^>]*id="'+id+r'".*?</section>',base).group()
 def page(name,title,content,cls=''):
  mode={'index.html':'media','about.html':'connection','business.html':'connection','media.html':'media','agency.html':'network','culture.html':'culture','work.html':'media','global.html':'network','contact.html':'connection'}[name]
