@@ -9,7 +9,7 @@
  let ticking=false;
  function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(()=>{const y=scrollY;header?.classList.toggle('scrolled',y>35);if(progress)progress.style.transform=`scaleX(${y/Math.max(1,document.documentElement.scrollHeight-innerHeight)})`;if(!reduced){if(hero&&y<innerHeight*1.2)hero.style.translate=`0 ${y*.17}px`;if(intro){const r=intro.parentElement.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)intro.style.translate=`0 ${Math.max(-50,Math.min(50,(innerHeight/2-r.top)*.09))}px`}}ticking=false})}
  addEventListener('scroll',onScroll,{passive:true});onScroll();
- const name=location.pathname.split('/').pop()||'index.html';
+ const slug=location.pathname.split('/').filter(Boolean).pop()||'index';const name=slug.includes('.')?slug:slug+'.html';
  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')===name));
  if(!reduced&&'IntersectionObserver'in window){document.body.classList.add('motion-ready');const io=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}},{threshold:.08,rootMargin:'0px 0px -25px 0px'});document.querySelectorAll('.section-heading,.about>div,.business-card,.work-card,.team,.global>div,.project-row,.contact-heading,.contact-body,.capability-grid article,.service-summary>div,.people-grid button,.steps article,.manifesto h2,.partner-list h2,.partner-list>div,.faq details,.next-service>a').forEach((el,i)=>{el.classList.add('reveal');el.style.setProperty('--reveal-delay',`${Math.min(i%3*75,150)}ms`);io.observe(el)});
  // Observe filtered portfolio entries as they are rendered.

@@ -22,3 +22,6 @@ Node.js 18 이상에서 `npm run dev`, http://127.0.0.1:4173 접속. 의존성 �
 `npm run build`로 `scripts/home-template.html`과 `scripts/build-pages.py`에서 HTML을 재생성한다. 디자인은 `dist/style.css`, 공통 기능은 `dist/app.js`, 모션은 `dist/motion.js`에 있다. 메인 비주얼은 사용자가 직접 전환한다. 브라우저 모션 감소 설정을 존중하며 모바일에서는 포인터 효과를 적용하지 않는다.
 
 WebP 이미지 최적화로 이미지 자산 용량을 약 97% 줄였다. `qa/check-v2.cjs`는 9개 페이지를 3개 뷰포트에서 확인하고 필터·상세·내비게이션·문의·모션 감소를 검증한다.
+
+## V3: WebGL 공간 연출
+`dist/experience.js`는 원본 이미지 자산을 사용하는 독립 WebGL 연출이다. 곡면 이미지, 원근감, 깊이 블러, 포인터 시차와 사업별 분위기를 구현한다. 홈/회사 소개/참여 경력에는 별도 입체 갤러리가 있다. 효과는 `dist/style.css`의 V3 부분에 정의되며 제목 초점·마스크·입체 셔터·문장 채움으로 구분된다. 장면의 MOTION 버튼으로 자동 움직임을 정지할 수 있다. 외부 라이브러리·Unicorn 프로젝트에 의존하지 않는다.

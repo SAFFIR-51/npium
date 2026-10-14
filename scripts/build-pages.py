@@ -6,10 +6,16 @@ header=re.search(r'<header>.*?</header>',base).group();footer=re.search(r'<foote
 header=header.replace('href="#home"','href="index.html"').replace('href="#about"','href="about.html"').replace('href="#business"','href="business.html"').replace('href="#work"','href="work.html"').replace('href="#global"','href="global.html"').replace('href="#contact"','href="contact.html"')
 footer=footer.replace('href="#home"','href="index.html"')
 footer=footer.replace('<p>CONTENT. PEOPLE. CULTURE.</p>','<div class="footer-links"><a href="about.html">About</a><a href="business.html">Business</a><a href="work.html">Experience</a><a href="contact.html">Contact</a></div>')
-head=base[:base.index('<body>')].replace('<script src="app.js" defer></script>','<script src="app.js" defer></script><script src="motion.js" defer></script>')
+head=base[:base.index('<body>')].replace('<script src="app.js" defer></script>','<script src="app.js" defer></script><script src="motion.js" defer></script><script src="experience.js" defer></script>')
 chrome='<div class="scroll-progress" aria-hidden="true"></div><div class="cursor-halo" aria-hidden="true"></div><div class="page-wipe" aria-hidden="true"></div>'
 def section(id):return re.search(r'<section\b[^>]*id="'+id+r'".*?</section>',base).group()
 def page(name,title,content,cls=''):
+ mode={'index.html':'media','about.html':'connection','business.html':'connection','media.html':'media','agency.html':'network','culture.html':'culture','work.html':'media','global.html':'network','contact.html':'connection'}[name]
+ content=content.replace('<section class="page-intro ', '<section data-scene="'+mode+'" class="page-intro ').replace('<section class="hero cinematic"', '<section data-scene="media" class="hero cinematic"')
+ if name in ['index.html','about.html','work.html']:
+  stage='<section class="focus-stage" data-scene="gallery"><div class="focus-stage-label">THE ART OF CONNECTION / nPIUM</div><div class="focus-stage-center"><span>Different stories. One perspective.</span><h2>In <em>connection.</em></h2><p>서로 다른 가능성이 하나의 장면이 되는 순간.</p></div><div class="focus-stage-bottom"><span>소개서 이미지 · 대표/협업 작가 참여 경력 포함</span><span>MOVE TO EXPLORE ↔</span></div></section>'
+  if name=='index.html':content=content.replace('<section class="about',stage+'<section class="about',1)
+  else:content=content.replace('</section>','</section>'+stage,1)
  html=head.replace('<title>nPIUM — 콘텐츠와 사람, 세계를 잇다</title>',f'<title>{title} | nPIUM</title>')+'<body class="'+cls+'">'+chrome+'<a class="skip" href="#main">본문으로 이동</a>'+header+'<main id="main">'+content+'</main>'+footer+dialog+'</body></html>'
  (root/'dist'/name).write_text(html)
 def intro(num,kicker,title,desc,image=None):
