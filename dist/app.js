@@ -14,4 +14,27 @@ $$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{$$('[data-filter]
 function country(key){if(!$('#country-info'))return;const d=countries[key];$('#country-info').innerHTML=`<h3>${d.title}</h3><p>${d.text}</p>`}country('korea');$$('[data-country]').forEach(b=>b.addEventListener('click',()=>{$$('[data-country]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));country(b.dataset.country)}));
 $('.menu').addEventListener('click',()=>{const open=$('.menu').getAttribute('aria-expanded')!=='true';$('.menu').setAttribute('aria-expanded',String(open));$('.menu').setAttribute('aria-label',open?'메뉴 닫기':'메뉴 열기');$('#navigation').classList.toggle('open',open)});$$('nav a').forEach(a=>a.addEventListener('click',()=>{$('#navigation').classList.remove('open');$('.menu').setAttribute('aria-expanded','false');$('.menu').setAttribute('aria-label','메뉴 열기')}));
 $('#copy-email')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('planova.develop@gmail.com');$('#copy-status').textContent='이메일 주소를 복사했습니다.'}catch{$('#copy-status').textContent='이메일 주소를 선택해 복사해 주세요: planova.develop@gmail.com'}});
-$('#inquiry')?.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.target);const subject=`[nPIUM 문의] ${d.get('field')} / ${String(d.get('name')).trim()}`;const body=`이름 / 회사: ${String(d.get('name')).trim()}\n문의 분야: ${d.get('field')}\n\n${String(d.get('message')).trim()}`;window.location.href=`mailto:planova.develop@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;$('#form-status').textContent='이메일 앱에서 내용을 확인하고 전송해 주세요. 앱이 열리지 않으면 위 이메일 주소로 직접 문의해 주세요.'});
+
+const inquiry=$('#inquiry');
+if(inquiry){
+ const message=inquiry.elements.message;
+ message.addEventListener('input',()=>{$('#message-count').textContent=message.value.length.toLocaleString('ko-KR')+' / 3,000'});
+ let sending=false;
+ inquiry.addEventListener('submit',async e=>{
+  e.preventDefault();if(sending||!inquiry.reportValidity())return;
+  const data=new FormData(inquiry),status=$('#form-status'),button=inquiry.querySelector('[type=submit]');
+  if(String(data.get('website')||'').trim())return;
+  const name=String(data.get('name')||'').trim(),email=String(data.get('email')||'').trim(),text=String(data.get('message')||'').trim();
+  if(!name||text.length<10){status.dataset.state='error';status.textContent='이름과 10자 이상의 문의 내용을 입력해 주세요.';return;}
+  sending=true;button.disabled=true;button.setAttribute('aria-busy','true');button.querySelector('.submit-label').textContent='보내는 중…';status.dataset.state='sending';status.textContent='문의 내용을 안전하게 전송하고 있습니다.';
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),20000);
+  try{
+   const response=await fetch('https://formsubmit.co/ajax/planova.develop@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},signal:controller.signal,body:JSON.stringify({name,email,company:String(data.get('company')||'').trim(),field:String(data.get('field')||''),message:text,_replyto:email,_subject:'[nPIUM 프로젝트 문의] '+data.get('field')+' / '+name,_template:'table',_url:location.origin+location.pathname,consent:'문의 확인·회신을 위한 개인정보 수집 및 전송 동의',submittedAt:new Date().toISOString()})});
+   const result=await response.json();
+   if(!response.ok||(result.success!==true&&result.success!=='true'))throw new Error(/activat|confirm/i.test(result.message||'')?'activation':'provider');
+   if(/activat|confirm your email|needs? to be/i.test(result.message||''))throw new Error('activation');
+   status.dataset.state='success';status.textContent='문의가 전송되었습니다. 입력하신 이메일로 답변드리겠습니다.';inquiry.reset();$('#message-count').textContent='0 / 3,000';
+  }catch(error){status.dataset.state='error';status.textContent=error.message==='activation'?'수신 메일 연결 확인이 진행 중입니다. 아래 이메일 주소로 문의해 주세요: planova.develop@gmail.com':error.name==='AbortError'?'전송 확인 시간이 초과되었습니다. 중복 전송 전에 수신 여부를 확인하거나 이메일로 문의해 주세요.':'문의 전송을 확인하지 못했습니다. 입력 내용은 유지됩니다. 다시 시도하거나 planova.develop@gmail.com으로 문의해 주세요.';
+  }finally{clearTimeout(timeout);sending=false;button.disabled=false;button.removeAttribute('aria-busy');button.querySelector('.submit-label').textContent='문의 보내기';}
+ });
+}
