@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs",
-    "check": "node --check dist/app.js && node --check dist/motion.js && node --check dist/experience.js && node --check server.mjs",
+    "check": "node --check dist/app.js && node --check dist/motion.js && node --check dist/experience.js && node --check server.mjs && node --check api/inquiry.js",
     "build": "python3 scripts/build-pages.py"
+  },
+  "dependencies": {
+    "nodemailer": "^10.1.1"
   }
 }

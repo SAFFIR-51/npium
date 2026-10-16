@@ -29,12 +29,11 @@ if(inquiry){
   sending=true;button.disabled=true;button.setAttribute('aria-busy','true');button.querySelector('.submit-label').textContent='보내는 중…';status.dataset.state='sending';status.textContent='문의 내용을 안전하게 전송하고 있습니다.';
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),20000);
   try{
-   const response=await fetch('https://formsubmit.co/ajax/planova.develop@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},signal:controller.signal,body:JSON.stringify({name,email,company:String(data.get('company')||'').trim(),field:String(data.get('field')||''),message:text,_replyto:email,_subject:'[nPIUM 프로젝트 문의] '+data.get('field')+' / '+name,_template:'table',_url:location.origin+location.pathname,consent:'문의 확인·회신을 위한 개인정보 수집 및 전송 동의',submittedAt:new Date().toISOString()})});
+   const response=await fetch('/api/inquiry',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},signal:controller.signal,body:JSON.stringify({name,email,company:String(data.get('company')||'').trim(),field:String(data.get('field')||''),message:text,consent:data.get('consent')==='on',website:String(data.get('website')||'')})});
    const result=await response.json();
-   if(!response.ok||(result.success!==true&&result.success!=='true'))throw new Error(/activat|confirm/i.test(result.message||'')?'activation':'provider');
-   if(/activat|confirm your email|needs? to be/i.test(result.message||''))throw new Error('activation');
-   status.dataset.state='success';status.textContent='문의가 전송되었습니다. 입력하신 이메일로 답변드리겠습니다.';inquiry.reset();$('#message-count').textContent='0 / 3,000';
-  }catch(error){status.dataset.state='error';status.textContent=error.message==='activation'?'수신 메일 연결 확인이 진행 중입니다. 직접 이메일로 문의해 주세요: planova.develop@gmail.com':error.name==='AbortError'?'전송 확인 시간이 초과되었습니다. 중복 전송 전에 수신 여부를 확인하거나 이메일로 문의해 주세요.':'문의 전송을 확인하지 못했습니다. 입력 내용은 유지됩니다. 다시 시도하거나 planova.develop@gmail.com으로 문의해 주세요.';
+   if(!response.ok||result.success!==true){const error=new Error('provider');error.publicMessage=result.message;throw error;}
+   status.dataset.state='success';status.textContent='문의가 접수되었습니다. 접수 번호: '+result.reference+'. 입력하신 이메일로 답변드리겠습니다.';inquiry.reset();$('#message-count').textContent='0 / 3,000';
+  }catch(error){status.dataset.state='error';status.textContent=error.publicMessage?error.publicMessage:error.name==='AbortError'?'전송 확인 시간이 초과되었습니다. 중복 전송 전에 수신 여부를 확인하거나 이메일로 문의해 주세요.':'문의 전송을 확인하지 못했습니다. 입력 내용은 유지됩니다. 다시 시도하거나 planova.develop@gmail.com으로 문의해 주세요.';
   }finally{clearTimeout(timeout);sending=false;button.disabled=false;button.removeAttribute('aria-busy');button.querySelector('.submit-label').textContent='문의 보내기';}
  });
 }
