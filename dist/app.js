@@ -34,7 +34,7 @@ if(inquiry){
    if(!response.ok||(result.success!==true&&result.success!=='true'))throw new Error(/activat|confirm/i.test(result.message||'')?'activation':'provider');
    if(/activat|confirm your email|needs? to be/i.test(result.message||''))throw new Error('activation');
    status.dataset.state='success';status.textContent='문의가 전송되었습니다. 입력하신 이메일로 답변드리겠습니다.';inquiry.reset();$('#message-count').textContent='0 / 3,000';
-  }catch(error){status.dataset.state='error';status.textContent=error.message==='activation'?'수신 메일 연결 확인이 진행 중입니다. 아래 이메일 주소로 문의해 주세요: planova.develop@gmail.com':error.name==='AbortError'?'전송 확인 시간이 초과되었습니다. 중복 전송 전에 수신 여부를 확인하거나 이메일로 문의해 주세요.':'문의 전송을 확인하지 못했습니다. 입력 내용은 유지됩니다. 다시 시도하거나 planova.develop@gmail.com으로 문의해 주세요.';
+  }catch(error){status.dataset.state='error';status.textContent=error.message==='activation'?'수신 메일 연결 확인이 진행 중입니다. 직접 이메일로 문의해 주세요: planova.develop@gmail.com':error.name==='AbortError'?'전송 확인 시간이 초과되었습니다. 중복 전송 전에 수신 여부를 확인하거나 이메일로 문의해 주세요.':'문의 전송을 확인하지 못했습니다. 입력 내용은 유지됩니다. 다시 시도하거나 planova.develop@gmail.com으로 문의해 주세요.';
   }finally{clearTimeout(timeout);sending=false;button.disabled=false;button.removeAttribute('aria-busy');button.querySelector('.submit-label').textContent='문의 보내기';}
  });
 }
