@@ -10,5 +10,12 @@
     "api/inquiry.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/agency",
+      "destination": "/marketing",
+      "permanent": true
+    }
+  ]
 }

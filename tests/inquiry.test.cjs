@@ -8,7 +8,7 @@ process.env.SMTP_PASSWORD = 'test-only-value';
 process.env.INQUIRY_TO = 'inbox@example.com';
 process.env.VERCEL = '1';
 const handler = require('../api/inquiry.js');
-const valid = { name: '테스트 문의자', email: 'reply@example.com', company: '샘플 회사', field: '미디어·콘텐츠 제작', message: '웹사이트의 프로젝트 문의 전송을 확인합니다.', consent: true, website: '' };
+const valid = { name: '테스트 문의자', email: 'reply@example.com', company: '샘플 회사', field: '마케팅', message: '웹사이트의 프로젝트 문의 전송을 확인합니다.', consent: true, website: '' };
 async function request(body = valid, options = {}) {
  let status, data;
  const req = { method: options.method || 'POST', headers: { origin: options.origin || 'https://npium.vercel.app', 'content-type': 'application/json', 'x-vercel-forwarded-for': options.ip || 'test-client' }, body };

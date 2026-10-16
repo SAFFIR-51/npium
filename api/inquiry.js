@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const { randomUUID, createHash } = require('node:crypto');
 
-const fields = new Set(['미디어·콘텐츠 제작', '해외 인재·에이전시', '문화 행사·페스티벌', '기타 파트너십']);
+const fields = new Set(['미디어·콘텐츠 제작', '마케팅', '문화 행사·페스티벌', '기타 파트너십']);
 const origins = new Set(['https://npium.vercel.app', 'https://npium.saffirdev.com']);
 const recent = new Map(); // Best-effort warm-instance throttling, not a shared rate-limit store.
 const completed = new Map();
