@@ -9,3 +9,5 @@ scripts
 .private
 .env
 .env.*
+
+tests

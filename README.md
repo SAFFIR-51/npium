@@ -30,5 +30,7 @@ WebP 이미지 최적화로 이미지 자산 용량을 약 97% 줄였다. `qa/ch
 GitHub: https://github.com/SAFFIR-51/npium
 Vercel은 `vercel.json`에 따라 추적된 `dist/`를 정적 배포한다. 빌드·설치 단계는 생략하며 clean URLs로 `/about`, `/work`, `/global` 등 독립 페이지를 제공한다. HTML 생성 소스를 수정하면 `npm run build`로 dist를 갱신하고 `npm run check` 후 함께 커밋한다.
 
+현재 문의 기능은 `/api/inquiry` Vercel Node.js Function을 함께 배포한다. 설치 단계에서 `npm ci --omit=dev`로 Nodemailer를 설치하며 별도 HTML 빌드는 생략한다. `npm test`는 SMTP를 모킹한 서버 검증을 실행하며 실제 메일을 보내지 않는다. 로컬 실행은 Git 제외 `.env.local`의 설정을 사용한다.
+
 ## 직접 문의 전송
 필수 입력은 문의 분야·이름·회신 이메일·10자 이상의 내용·전송 동의다. 회사명은 선택이다. 서버 환경 변수 SMTP_USER, SMTP_PASSWORD, INQUIRY_TO를 설정해야 한다. 서비스 연결 미확인·전송 오류 시 입력을 유지하며 성공으로 표시하지 않는다. 메일 전송을 테스트할 때는 실제 고객 정보 대신 설정 확인용 문구를 사용한다.

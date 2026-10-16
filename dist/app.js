@@ -27,7 +27,7 @@ if(inquiry){
   const name=String(data.get('name')||'').trim(),email=String(data.get('email')||'').trim(),text=String(data.get('message')||'').trim();
   if(!name||text.length<10){status.dataset.state='error';status.textContent='이름과 10자 이상의 문의 내용을 입력해 주세요.';return;}
   sending=true;button.disabled=true;button.setAttribute('aria-busy','true');button.querySelector('.submit-label').textContent='보내는 중…';status.dataset.state='sending';status.textContent='문의 내용을 안전하게 전송하고 있습니다.';
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),20000);
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),35000);
   try{
    const response=await fetch('/api/inquiry',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},signal:controller.signal,body:JSON.stringify({name,email,company:String(data.get('company')||'').trim(),field:String(data.get('field')||''),message:text,consent:data.get('consent')==='on',website:String(data.get('website')||'')})});
    const result=await response.json();
