@@ -51,3 +51,8 @@
 사용자 캡처에서 02 사업 카드, 03 참여 경력 카드, 05 프로젝트 행의 빈 영역 확인. 등장 전에 clip-path/opacity로 숨긴 상태를 IntersectionObserver의 진입 감지에 의존하던 구조를 수정했다. 모든 콘텐츠는 기본적으로 표시하고, 화면 진입 후 일회성 CSS keyframe만 재생한다. 감지가 누락되거나 중단되어도 내용은 남는다.
 
 브라우저에서 사업 3개, 경력 6개, 프로젝트 3개의 기본 opacity=1/clip-path=none 확인. 사업 카드 스크롤 진입 후 is-visible과 최종 마스크 펼침 상태 확인 및 실제 이미지·본문 시각 검토. JavaScript 구문 검사 통과.
+
+# 메인 하단 사업 바로가기 — 2026-10-16
+MEDIA/PEOPLE/CULTURE가 비주얼 테마 선택 기능이라 페이지 이동 의도가 불명확했던 부분을 사업별 독립 페이지 링크로 변경. MEDIA → media.html, PEOPLE → agency.html, CULTURE → culture.html. 이동 화살표와 hover/focus 반응 추가. 기존 테마 클릭 핸들러 제거.
+
+인앱 브라우저 1440/375px에서 세 링크를 각각 직접 클릭해 6개 이동의 목적지 경로·제목과 가로 넘침 없음 확인. JavaScript 구문 검사 통과.

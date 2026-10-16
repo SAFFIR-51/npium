@@ -33,3 +33,12 @@
 @keyframes reveal-shutter{from{clip-path:inset(0 0 0 100%);transform:perspective(1200px) rotateY(16deg)}to{clip-path:inset(0);transform:none}}
 @keyframes reveal-scale{from{opacity:.3;transform:scale(.9)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.motion-ready .reveal.is-visible,.motion-ready .reveal.is-visible[data-reveal]{animation:none}}
+/* Hero business shortcuts navigate to the matching detail page. */
+.hero-controls .slide-select{position:static;display:flex;flex-direction:row;background:none;border:0;padding:0}
+.slide-select a{display:flex;align-items:center;gap:12px;padding:15px 0;min-width:160px;border-bottom:1px solid #ffffff50;color:#ddd2eb;font-size:10px;letter-spacing:1px;transition:color .25s,border-color .25s}
+.slide-select a>span{font-family:Georgia,serif;font-style:italic;font-size:18px;opacity:.6}
+.slide-select a>b{font-size:18px;font-weight:400;margin-left:auto;transition:transform .25s}
+.slide-select a:hover,.slide-select a:focus-visible{color:var(--accent);border-color:var(--accent)}
+.slide-select a:hover>b{transform:translate(3px,-3px)}
+.slide-select a:after{display:none}
+@media(max-width:700px){.hero-controls .slide-select{gap:16px}.slide-select a{min-width:0;flex:1;gap:6px;font-size:8px}.slide-select a>span{font-size:14px}.slide-select a>b{font-size:15px}}

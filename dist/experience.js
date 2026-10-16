@@ -47,7 +47,6 @@
  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();cancelAnimationFrame(raf);host.classList.add('scene-fallback');canvas.style.display='none';button.hidden=true});
  button.addEventListener('click',()=>{paused=!paused;sessionStorage.setItem('npium-motion-paused',String(paused));syncPause();scenes.forEach(s=>s.schedule?.())});
  host.addEventListener('pointermove',()=>{if(paused||reduced)schedule()},{passive:true});
- if(host.classList.contains('cinematic'))document.querySelectorAll('[data-slide]').forEach(b=>b.addEventListener('click',()=>{scene.variant=Number(b.dataset.slide);scene.dirty=true;schedule()}));
  schedule();
  }catch(error){canvas.remove();button.remove();host.classList.add('scene-fallback');}
  }
