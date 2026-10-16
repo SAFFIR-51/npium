@@ -25,3 +25,7 @@ WebP 이미지 최적화로 이미지 자산 용량을 약 97% 줄였다. `qa/ch
 
 ## V3: WebGL 공간 연출
 `dist/experience.js`는 원본 이미지 자산을 사용하는 독립 WebGL 연출이다. 곡면 이미지, 원근감, 깊이 블러, 포인터 시차와 사업별 분위기를 구현한다. 홈/회사 소개/참여 경력에는 별도 입체 갤러리가 있다. 효과는 `dist/style.css`의 V3 부분에 정의되며 제목 초점·마스크·입체 셔터·문장 채움으로 구분된다. 장면의 MOTION 버튼으로 자동 움직임을 정지할 수 있다. 외부 라이브러리·Unicorn 프로젝트에 의존하지 않는다.
+
+## GitHub / Vercel
+GitHub: https://github.com/SAFFIR-51/npium
+Vercel은 `vercel.json`에 따라 추적된 `dist/`를 정적 배포한다. 빌드·설치 단계는 생략하며 clean URLs로 `/about`, `/work`, `/global` 등 독립 페이지를 제공한다. HTML 생성 소스를 수정하면 `npm run build`로 dist를 갱신하고 `npm run check` 후 함께 커밋한다.
