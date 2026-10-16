@@ -13,3 +13,23 @@
 @media(prefers-reduced-motion:reduce){.motion-ready .reveal[data-reveal]{opacity:1;transform:none;filter:none;clip-path:none}.page-intro h1{animation:none}.focus-stage-center h2{animation:none;filter:none}.intro-image{clip-path:none;transform:none}.manifesto-ink{clip-path:none}.scene-pause{display:none}.network-art:after{animation:none}.round-link,.pill-link,.contact-nav{translate:none!important}}
 /* Navigation uses native links; never cover the page while a route loads. */
 .page-wipe,.page-wipe.leaving{display:none!important}
+/* Content stays visible even if intersection detection or motion is interrupted. */
+.motion-ready .reveal,
+.motion-ready .reveal[data-reveal],
+.motion-ready .reveal.is-visible[data-reveal]{opacity:1;transform:none;filter:none;clip-path:none;transition:none}
+.motion-ready .reveal.is-visible{animation:reveal-fade .75s var(--ease) both;animation-delay:var(--reveal-delay,0ms)}
+.motion-ready .reveal.is-visible[data-reveal=focus]{animation-name:reveal-focus}
+.motion-ready .reveal.is-visible[data-reveal=curtain],
+.motion-ready .reveal.is-visible[data-reveal=line]{animation-name:reveal-curtain}
+.motion-ready .reveal.is-visible[data-reveal=iris]{animation-name:reveal-iris}
+.motion-ready .reveal.is-visible[data-reveal=horizontal]{animation-name:reveal-horizontal}
+.motion-ready .reveal.is-visible[data-reveal=shutter]{animation-name:reveal-shutter}
+.motion-ready .reveal.is-visible[data-reveal=scale]{animation-name:reveal-scale}
+@keyframes reveal-fade{from{opacity:.25}to{opacity:1}}
+@keyframes reveal-focus{from{opacity:.35;filter:blur(12px)}to{opacity:1;filter:none}}
+@keyframes reveal-curtain{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
+@keyframes reveal-iris{from{clip-path:circle(0% at 50% 50%)}to{clip-path:circle(75% at 50% 50%)}}
+@keyframes reveal-horizontal{from{opacity:.3;transform:translateX(-35px)}to{opacity:1;transform:none}}
+@keyframes reveal-shutter{from{clip-path:inset(0 0 0 100%);transform:perspective(1200px) rotateY(16deg)}to{clip-path:inset(0);transform:none}}
+@keyframes reveal-scale{from{opacity:.3;transform:scale(.9)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.motion-ready .reveal.is-visible,.motion-ready .reveal.is-visible[data-reveal]{animation:none}}
